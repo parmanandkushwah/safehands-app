@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import '../index.css'
 
 export default function Login() {
   const { register, handleSubmit, formState: { errors } } = useForm();
