@@ -57,7 +57,7 @@ export default function Register() {
       localStorage.setItem("user", JSON.stringify(data.user));
 
       // ✅ Show success toast
-      toast.success("Account created successfully!");
+      toast.success("Account created successfully! Welcome 🎉");
 
       // Delay a bit before redirect
       setTimeout(() => {
