@@ -8,14 +8,20 @@ require('dotenv').config();
 
 const app = express();
 
-// ✅ CORS setup for Vercel frontend + localhost (for local dev)
+// ✅ CORS setup
 const allowedOrigins = [
-  'safehands-hd7qubm3u-stranger004s-projects.vercel.app', // ← your Vercel frontend
+  'https://safehands-hd7qubm3u-stranger004s-projects.vercel.app',
   'http://localhost:3000'
 ];
 
 app.use(cors({
-  origin: allowedOrigins,
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true
 }));
 
@@ -25,7 +31,7 @@ app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// ✅ Public route for health check / test
+// ✅ Health check
 app.get('/', (req, res) => {
   res.send('SafeHands backend is running!');
 });
@@ -44,18 +50,16 @@ app.use('/api/bookings', require('./routes/bookings'));
 app.use('/api/reviews', require('./routes/reviews'));
 app.use('/api/admin', require('./routes/admin'));
 
-// ✅ Port config
+// ✅ Start server
 const PORT = process.env.PORT || 5000;
-
-// ✅ Start server after DB sync
 sequelize.sync().then(() => {
   app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Server running on port ${PORT} (0.0.0.0)`);
-    console.log('If you want to access this server from another device, use your local IP address.');
+    console.log(`✅ Server running on port ${PORT} (0.0.0.0)`);
+    console.log(`🌐 Accessible from your LAN`);
   });
 });
 
-// ✅ Optional: Run demoSeeder.js in development only
+// ✅ Seeder runs only in dev
 if (process.env.NODE_ENV !== 'production') {
   const { exec } = require('child_process');
   exec('node seeders/demoSeeder.js', (err, stdout, stderr) => {
