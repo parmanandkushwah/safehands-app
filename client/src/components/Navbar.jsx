@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { useAuth } from "../hooks/useAuth";
-import { FaMapMarkerAlt, FaSearch } from "react-icons/fa";
+import { FaMapMarkerAlt, FaSearch, FaSignOutAlt } from "react-icons/fa";
 import { Link } from "wouter";
 
-// Predefined city list
 const cities = [
   { name: "Delhi", lat: 28.6139, lng: 77.2090 },
   { name: "Mumbai", lat: 19.0760, lng: 72.8777 },
@@ -18,7 +17,7 @@ const cities = [
 const Navbar = () => {
   const [selectedCity, setSelectedCity] = useState("Select City");
   const [searchQuery, setSearchQuery] = useState("");
-  const { user, isAuthenticated, isLoading } = useAuth();
+  const { user, isAuthenticated, isLoading, logout } = useAuth();
 
   const detectLocation = () => {
     if (navigator.geolocation) {
@@ -113,7 +112,9 @@ const Navbar = () => {
             onSubmit={(e) => {
               e.preventDefault();
               if (searchQuery)
-                window.location.href = `/services?search=${encodeURIComponent(searchQuery)}`;
+                window.location.href = `/services?search=${encodeURIComponent(
+                  searchQuery
+                )}`;
             }}
           >
             <input
@@ -129,11 +130,19 @@ const Navbar = () => {
 
         {/* Auth Buttons */}
         {isLoading ? null : isAuthenticated ? (
-          <Link href="/dashboard">
-            <button className="bg-gray-100 text-blue-700 px-4 py-1.5 rounded-md text-sm font-semibold">
-              {user?.firstName || user?.email || "Account"}
+          <div className="flex items-center gap-2">
+            <Link href="/dashboard">
+              <button className="bg-gray-100 text-blue-700 px-4 py-1.5 rounded-md text-sm font-semibold">
+                {user?.firstName || user?.email || "Account"}
+              </button>
+            </Link>
+            <button
+              onClick={logout}
+              className="bg-red-100 hover:bg-red-200 text-red-700 px-3 py-1.5 rounded-md text-sm flex items-center gap-1"
+            >
+              <FaSignOutAlt /> Logout
             </button>
-          </Link>
+          </div>
         ) : (
           <Link href="/login">
             <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1.5 rounded-md text-sm">
