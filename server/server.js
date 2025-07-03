@@ -8,14 +8,14 @@ require('dotenv').config();
 
 const app = express();
 
-// ✅ CORS setup for Vercel frontend + localhost
+// ✅ CORS setup for Vercel and localhost
 const allowedOrigins = [
-  'https://safehands-hd7qubm3u-stranger004s-projects.vercel.app',
-  'http://localhost:3000'
+  'https://safehands-n547kaqzs-stranger004s-projects.vercel.app', // ← your Vercel frontend
+  'http://localhost:3000' // ← local development
 ];
 
 app.use(cors({
-  origin: (origin, callback) => {
+  origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
@@ -31,16 +31,16 @@ app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// ✅ Health check
+// ✅ Health Check Routes
 app.get('/', (req, res) => {
-  res.send('🚑 SafeHands backend is running!');
+  res.send('✅ SafeHands backend is running!');
 });
 
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok' });
 });
 
-// ✅ API routes
+// ✅ API Routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/cities', require('./routes/cities'));
 app.use('/api/service-categories', require('./routes/categories'));
@@ -50,16 +50,17 @@ app.use('/api/bookings', require('./routes/bookings'));
 app.use('/api/reviews', require('./routes/reviews'));
 app.use('/api/admin', require('./routes/admin'));
 
-// ✅ Start the server
+// ✅ Server Listener
 const PORT = process.env.PORT || 5000;
+
 sequelize.sync().then(() => {
   app.listen(PORT, '0.0.0.0', () => {
     console.log(`✅ Server running on port ${PORT}`);
-    console.log(`🌍 Accessible from your LAN`);
+    console.log('🌍 Accessible via Render and LAN');
   });
 });
 
-// ✅ Seeder runs only in development
+// ✅ Seeder only in development
 if (process.env.NODE_ENV !== 'production') {
   const { exec } = require('child_process');
   exec('node seeders/demoSeeder.js', (err, stdout, stderr) => {
@@ -71,6 +72,6 @@ if (process.env.NODE_ENV !== 'production') {
       console.error(`Seeder stderr: ${stderr}`);
       return;
     }
-    console.log(`Seeder output: ${stdout}`);
+    console.log(`Seeder output:\n${stdout}`);
   });
 }
