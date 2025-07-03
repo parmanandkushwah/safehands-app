@@ -14,11 +14,17 @@ const allowedOrigins = [
   'http://localhost:3000'
 ];
 
+if (process.env.CORS_ORIGIN) {
+  allowedOrigins.unshift(process.env.CORS_ORIGIN);
+}
+
 app.use(cors({
   origin: function (origin, callback) {
+     console.log(`🌐 Request Origin: ${origin}`);
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
+      console.error(`❌ CORS blocked: ${origin}`);
       callback(new Error('Not allowed by CORS'));
     }
   },
