@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useAuth } from "../hooks/useAuth";
 import { FaMapMarkerAlt, FaSearch } from "react-icons/fa";
 import { Link } from "wouter";
 
@@ -16,6 +17,8 @@ const cities = [
 
 const Navbar = () => {
     const [selectedCity, setSelectedCity] = useState("Select City");
+    const [searchQuery, setSearchQuery] = useState("");
+    const { user, isAuthenticated, isLoading } = useAuth();
 
     const detectLocation = () => {
         if (navigator.geolocation) {
@@ -68,7 +71,7 @@ const Navbar = () => {
             <div className="max-w-7xl mx-auto flex items-center justify-between">
                 {/* Logo + Tagline */}
                 <div className="flex items-center gap-2">
-                    <img src="/logo.png" alt="SafeHands" className="h-6 w-6" />
+                    <img src="https://i.ibb.co/ccJNk82/logo.png" alt="SafeHands Logo" className="h-8 w-8 rounded-full" />
                     <div>
                         <h1 className="text-xl font-semibold text-[#1f3c88]">SafeHands</h1>
                         <p className="text-xs text-[#3571db]">
@@ -105,22 +108,32 @@ const Navbar = () => {
                     </button>
 
                     {/* Search Bar */}
-                    <div className="relative">
+                    <form className="relative" onSubmit={e => { e.preventDefault(); if(searchQuery) window.location.href = `/services?search=${encodeURIComponent(searchQuery)}`; }}>
                         <input
                             type="text"
                             placeholder="Search services..."
                             className="pl-8 pr-3 py-1 border rounded-md text-sm w-48"
+                            value={searchQuery}
+                            onChange={e => setSearchQuery(e.target.value)}
                         />
                         <FaSearch className="absolute left-2 top-2.5 text-gray-500 text-sm" />
-                    </div>
+                    </form>
                 </div>
 
-                {/* Sign In Button */}
-                <Link href="/login">
-                    <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1.5 rounded-md text-sm">
-                        Sign In
-                    </button>
-                </Link>
+                {/* Auth/Account */}
+                {isLoading ? null : isAuthenticated && user ? (
+                    <Link href="/dashboard">
+                        <button className="bg-gray-100 text-blue-700 px-4 py-1.5 rounded-md text-sm font-semibold">
+                            {user.name || user.email || "Account"}
+                        </button>
+                    </Link>
+                ) : (
+                    <Link href="/login">
+                        <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1.5 rounded-md text-sm">
+                            Sign In
+                        </button>
+                    </Link>
+                )}
             </div>
         </nav>
     );

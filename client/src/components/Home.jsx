@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "wouter";
 import { MapPin, Search, ShieldCheck, Star, Clock } from "lucide-react";
 import ServiceCategories from "../components/ServiceCategories";
 import Footer from "../components/Footer";
@@ -94,6 +95,29 @@ const Home = () => {
                         </div>
                     </div>
                 </div>
+            </section>
+            {/* Navigation Buttons for All Pages */}
+            <section className="my-12 flex flex-wrap justify-center gap-3">
+                <Link href="/about">
+                    <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md text-base font-semibold shadow">
+                        About
+                    </button>
+                </Link>
+                <Link href="/contact">
+                    <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md text-base font-semibold shadow">
+                        Contact
+                    </button>
+                </Link>
+                <Link href="/careers">
+                    <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md text-base font-semibold shadow">
+                        Careers
+                    </button>
+                </Link>
+                <Link href="/support">
+                    <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md text-base font-semibold shadow">
+                        Support
+                    </button>
+                </Link>
             </section>
         </div>
     );
