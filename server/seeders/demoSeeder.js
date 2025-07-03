@@ -1,5 +1,5 @@
 const { sequelize, User, City, ServiceCategory, Service, ProviderProfile, ProviderService, Booking, Review } = require('../models');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 async function seed() {
   await sequelize.sync({ force: true });
