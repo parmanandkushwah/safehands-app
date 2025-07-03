@@ -10,8 +10,8 @@ const app = express();
 
 // ✅ CORS setup for Vercel and localhost
 const allowedOrigins = [
-  'https://safehands-n547kaqzs-stranger004s-projects.vercel.app', // ← your Vercel frontend
-  'http://localhost:3000' // ← local development
+  process.env.CORS_ORIGIN,
+  'http://localhost:3000'
 ];
 
 app.use(cors({
