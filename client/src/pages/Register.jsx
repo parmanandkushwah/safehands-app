@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useLocation } from "wouter";
 import Footer from "../components/Footer";
+import { toast } from "react-hot-toast"; // ✅ use react-hot-toast
 
 export default function Register() {
   const [, setLocation] = useLocation();
@@ -35,19 +36,17 @@ export default function Register() {
 
     try {
       const response = await fetch("https://safehands-backend.onrender.com/api/auth/register", {
-
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            firstName: formData.firstName,
-            lastName: formData.lastName,
-            email: formData.email,
-            password: formData.password
-          })
-        }
-      );
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          password: formData.password
+        })
+      });
 
       const data = await response.json();
 
@@ -55,9 +54,15 @@ export default function Register() {
         throw new Error(data.message || "Registration failed");
       }
 
-      // Store user in localStorage (optional)
       localStorage.setItem("user", JSON.stringify(data.user));
-      setLocation("/");
+
+      // ✅ Show success toast
+      toast.success("Account created successfully!");
+
+      // Delay a bit before redirect
+      setTimeout(() => {
+        setLocation("/");
+      }, 1500);
     } catch (err) {
       setError(err.message);
     } finally {

@@ -53,7 +53,7 @@ const Navbar = () => {
     };
 
     const getDistance = (lat1, lon1, lat2, lon2) => {
-        const R = 6371; // Earth radius in km
+        const R = 6371;
         const dLat = (lat2 - lat1) * (Math.PI / 180);
         const dLon = (lon2 - lon1) * (Math.PI / 180);
         const a =
@@ -69,20 +69,18 @@ const Navbar = () => {
     return (
         <nav className="w-full bg-white shadow-sm px-6 py-4">
             <div className="max-w-7xl mx-auto flex items-center justify-between">
-                {/* Logo + Tagline */}
+                {/* Logo */} 
                 <div className="flex items-center gap-2">
                     <img src="https://i.ibb.co/ccJNk82/logo.png" alt="SafeHands Logo" className="h-8 w-8 rounded-full" />
                     <div>
                         <h1 className="text-xl font-semibold text-[#1f3c88]">SafeHands</h1>
-                        <p className="text-xs text-[#3571db]">
-                            Trusted Care, Right at Your Doorstep
-                        </p>
+                        <p className="text-xs text-[#3571db]">Trusted Care, Right at Your Doorstep</p>
                     </div>
                 </div>
 
-                {/* Center controls */}
+                {/* Controls */}
                 <div className="flex items-center gap-3">
-                    {/* Location Dropdown */}
+                    {/* City Dropdown */}
                     <div className="flex items-center gap-2 border px-3 py-1 rounded-md text-sm">
                         <FaMapMarkerAlt className="text-blue-600" />
                         <select
@@ -99,7 +97,7 @@ const Navbar = () => {
                         </select>
                     </div>
 
-                    {/* Detect Location */}
+                    {/* Detect Button */}
                     <button
                         onClick={detectLocation}
                         className="border px-3 py-1 text-blue-600 rounded-md text-sm hover:bg-blue-50"
@@ -107,8 +105,16 @@ const Navbar = () => {
                         Detect
                     </button>
 
-                    {/* Search Bar */}
-                    <form className="relative" onSubmit={e => { e.preventDefault(); if(searchQuery) window.location.href = `/services?search=${encodeURIComponent(searchQuery)}`; }}>
+                    {/* Search */}
+                    <form
+                        className="relative"
+                        onSubmit={e => {
+                            e.preventDefault();
+                            if (searchQuery) {
+                                window.location.href = `/services?search=${encodeURIComponent(searchQuery)}`;
+                            }
+                        }}
+                    >
                         <input
                             type="text"
                             placeholder="Search services..."
@@ -120,11 +126,11 @@ const Navbar = () => {
                     </form>
                 </div>
 
-                {/* Auth/Account */}
+                {/* Authentication / Account */}
                 {isLoading ? null : isAuthenticated && user ? (
                     <Link href="/dashboard">
                         <button className="bg-gray-100 text-blue-700 px-4 py-1.5 rounded-md text-sm font-semibold">
-                            {user.name || user.email || "Account"}
+                            Hi, {user.firstName || user.name?.split(' ')[0] || user.email}
                         </button>
                     </Link>
                 ) : (
