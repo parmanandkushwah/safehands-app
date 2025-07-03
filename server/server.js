@@ -8,7 +8,7 @@ require('dotenv').config();
 
 const app = express();
 
-// ✅ CORS setup
+// ✅ CORS setup for Vercel frontend + localhost
 const allowedOrigins = [
   'https://safehands-hd7qubm3u-stranger004s-projects.vercel.app',
   'http://localhost:3000'
@@ -33,7 +33,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // ✅ Health check
 app.get('/', (req, res) => {
-  res.send('SafeHands backend is running!');
+  res.send('🚑 SafeHands backend is running!');
 });
 
 app.get('/api/health', (req, res) => {
@@ -50,16 +50,16 @@ app.use('/api/bookings', require('./routes/bookings'));
 app.use('/api/reviews', require('./routes/reviews'));
 app.use('/api/admin', require('./routes/admin'));
 
-// ✅ Start server
+// ✅ Start the server
 const PORT = process.env.PORT || 5000;
 sequelize.sync().then(() => {
   app.listen(PORT, '0.0.0.0', () => {
-    console.log(`✅ Server running on port ${PORT} (0.0.0.0)`);
-    console.log(`🌐 Accessible from your LAN`);
+    console.log(`✅ Server running on port ${PORT}`);
+    console.log(`🌍 Accessible from your LAN`);
   });
 });
 
-// ✅ Seeder runs only in dev
+// ✅ Seeder runs only in development
 if (process.env.NODE_ENV !== 'production') {
   const { exec } = require('child_process');
   exec('node seeders/demoSeeder.js', (err, stdout, stderr) => {
