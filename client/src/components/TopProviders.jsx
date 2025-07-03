@@ -1,3 +1,5 @@
+import { useLocation } from "wouter";
+
 const providers = [
     {
         name: "Dr. Rajesh Patel",
@@ -29,6 +31,27 @@ const providers = [
 ];
 
 const TopProviders = () => {
+    const [, setLocation] = useLocation();
+
+    const handleBookNow = (provider) => {
+        const bookingData = {
+            serviceName: provider.specialty,
+            date: new Date().toLocaleDateString("en-IN", { dateStyle: "long" }),
+            time: "10:00 AM",
+            duration: "4 hours",
+            totalAmount: provider.price,
+            bookingId: "SH-" + Math.floor(100000 + Math.random() * 900000),
+            caregiver: {
+                name: provider.name,
+                experience: provider.experience,
+                rating: provider.rating,
+            },
+        };
+
+        localStorage.setItem("bookingDetails", JSON.stringify(bookingData));
+        setLocation("/booking");
+    };
+
     return (
         <section className="bg-[#f9fbfc] py-20 px-4 text-center">
             <h2 className="text-3xl font-bold mb-2">Top Rated Providers</h2>
@@ -48,7 +71,9 @@ const TopProviders = () => {
                             </div>
                         </div>
 
-                        <h3 className="text-lg font-semibold">{provider.name} <span className="text-green-500">✔️</span></h3>
+                        <h3 className="text-lg font-semibold">
+                            {provider.name} <span className="text-green-500">✔️</span>
+                        </h3>
                         <p className="text-gray-500 text-sm">{provider.specialty}</p>
 
                         <p className="mt-2 text-sm text-gray-700">
@@ -61,9 +86,14 @@ const TopProviders = () => {
                             <span>{provider.location}</span>
                         </div>
 
-                        <p className="text-blue-600 font-semibold text-lg mt-4">{provider.price}</p>
+                        <p className="text-blue-600 font-semibold text-lg mt-4">
+                            {provider.price}
+                        </p>
 
-                        <button className="mt-4 bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 text-sm w-full">
+                        <button
+                            onClick={() => handleBookNow(provider)}
+                            className="mt-4 bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 text-sm w-full"
+                        >
                             Book Now
                         </button>
                     </div>

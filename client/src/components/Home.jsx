@@ -1,59 +1,102 @@
-import { MapPin, Search, ShieldCheck, Star, Clock } from 'lucide-react';
+import { useState } from "react";
+import { MapPin, Search, ShieldCheck, Star, Clock } from "lucide-react";
+import ServiceCategories from "../components/ServiceCategories";
+import Footer from "../components/Footer";
 
-const HeroSection = () => {
+const Home = () => {
+    const [searchQuery, setSearchQuery] = useState("");
+    const [city, setCity] = useState("");
+
+    const handleDetectLocation = () => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                async (position) => {
+                    const { latitude, longitude } = position.coords;
+                    try {
+                        const response = await fetch(
+                            `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`
+                        );
+                        const data = await response.json();
+                        const detectedCity = data.address.city || data.address.town || data.address.village || "Unknown";
+                        setCity(detectedCity);
+                        localStorage.setItem("selectedCity", detectedCity);
+                    } catch (error) {
+                        console.error("Reverse geocoding failed:", error);
+                        alert("Failed to detect city from location.");
+                    }
+                },
+                (error) => {
+                    console.error("Geolocation error:", error);
+                    alert("Location access denied. Please allow location access.");
+                }
+            );
+        } else {
+            alert("Geolocation is not supported by your browser.");
+        }
+    };
+
     return (
-        <section className="bg-blue-600 text-white py-20 px-4 text-center">
-            {/* Top Heading */}
-            <h1 className="text-4xl md:text-6xl font-bold mb-4">
-                Trusted Care, Right at Your Doorstep
-            </h1>
-            <p className="text-lg md:text-xl mb-10">
-                Connect with verified healthcare professionals for home care, medical services, and child care
-            </p>
+        <div className="min-h-screen bg-white">
+            {/* Hero Section */}
+            <section className="bg-blue-700 text-white py-28 px-4 text-center relative overflow-hidden">
+                <div className="max-w-5xl mx-auto">
+                    <h1 className="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">
+                        Trusted Care, Right at Your Doorstep
+                    </h1>
+                    <p className="text-lg md:text-xl text-blue-100 mb-12">
+                        Connect with verified healthcare professionals for home care, medical services, and child care.
+                    </p>
 
-            {/* Search + Location Box */}
-            <div className="flex flex-col md:flex-row justify-center items-center gap-4 mb-10 max-w-4xl mx-auto">
-                {/* City Selector */}
-                <button className="flex items-center gap-2 px-6 py-3 bg-blue-500 hover:bg-blue-700 rounded-lg text-white text-sm">
-                    <MapPin className="w-4 h-4" />
-                    Select your city
-                </button>
+                    {/* Search and Location */}
+                    <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-12">
+                        {/* City Badge */}
+                        <div className="flex items-center gap-2 px-6 py-3 bg-white text-blue-700 rounded-lg text-sm font-medium shadow">
+                            <MapPin className="w-4 h-4" />
+                            {city ? city : "City not detected"}
+                        </div>
 
-                {/* Search Bar */}
-                <div className="flex items-center w-full md:w-auto bg-white rounded-lg overflow-hidden">
-                    <div className="flex items-center px-3">
-                        <Search className="text-gray-400 w-5 h-5" />
+                        {/* Search Box */}
+                        <div className="flex items-center w-full max-w-md bg-white rounded-lg overflow-hidden shadow">
+                            <div className="px-3">
+                                <Search className="text-gray-400 w-5 h-5" />
+                            </div>
+                            <input
+                                type="text"
+                                placeholder="Search for services..."
+                                className="w-full px-3 py-2 text-gray-700 focus:outline-none"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                            />
+                        </div>
+
+                        {/* Detect Button */}
+                        <button
+                            onClick={handleDetectLocation}
+                            className="bg-white text-blue-600 hover:bg-blue-100 px-6 py-3 rounded-lg font-semibold text-sm shadow"
+                        >
+                            Detect My Location
+                        </button>
                     </div>
-                    <input
-                        type="text"
-                        placeholder="Search for services..."
-                        className="w-full md:w-72 px-2 py-2 text-gray-700 focus:outline-none"
-                    />
-                </div>
 
-                {/* Find Care Button */}
-                <button className="bg-white text-blue-600 hover:bg-gray-100 px-6 py-3 rounded-lg font-medium text-sm">
-                    Find Care
-                </button>
-            </div>
-
-            {/* Features */}
-            <div className="flex justify-center gap-8 text-sm flex-wrap">
-                <div className="flex items-center gap-2">
-                    <ShieldCheck className="w-5 h-5" />
-                    Verified Professionals
+                    {/* Features */}
+                    <div className="flex flex-wrap justify-center items-center gap-6 text-sm text-white/90">
+                        <div className="flex items-center gap-2">
+                            <ShieldCheck className="w-5 h-5" />
+                            Verified Professionals
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <Star className="w-5 h-5" />
+                            Top Rated Services
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <Clock className="w-5 h-5" />
+                            24/7 Support
+                        </div>
+                    </div>
                 </div>
-                <div className="flex items-center gap-2">
-                    <Star className="w-5 h-5" />
-                    Top Rated Services
-                </div>
-                <div className="flex items-center gap-2">
-                    <Clock className="w-5 h-5" />
-                    24/7 Support
-                </div>
-            </div>
-        </section>
+            </section>
+        </div>
     );
 };
 
-export default HeroSection;
+export default Home;

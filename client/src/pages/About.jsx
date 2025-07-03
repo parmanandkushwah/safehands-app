@@ -1,46 +1,150 @@
-import { Link } from "wouter";
+import { Heart, Users, MapPin, Clock, Award, Target, Lightbulb } from "lucide-react";
 
-const About = () => {
+import Footer from "../components/Footer";
+
+export default function AboutPage() {
+    const stats = [
+        { icon: <Users className="w-6 h-6" />, value: "10,000+", label: "Happy Clients" },
+        { icon: <Heart className="w-6 h-6" />, value: "5,000+", label: "Care Professionals" },
+        { icon: <MapPin className="w-6 h-6" />, value: "50+", label: "Cities Covered" },
+        { icon: <Clock className="w-6 h-6" />, value: "5+", label: "Years of Excellence" }
+    ];
+
+    const values = [
+        { icon: <Heart className="w-8 h-8" />, title: "Compassion", description: "We care deeply about our clients and their well-being." },
+        { icon: <Award className="w-8 h-8" />, title: "Trust", description: "Building lasting relationships through reliability and transparency." },
+        { icon: <Target className="w-8 h-8" />, title: "Excellence", description: "Committed to delivering the highest quality of care." },
+        { icon: <Lightbulb className="w-8 h-8" />, title: "Innovation", description: "Continuously improving our services through technology." }
+    ];
+
+    const team = [
+        { name: "Dr. Sarah Johnson", role: "Chief Medical Officer", image: "/team/sarah.jpg" },
+        { name: "Michael Chen", role: "Head of Operations", image: "/team/michael.jpg" },
+        { name: "Priya Sharma", role: "Director of Care Services", image: "/team/priya.jpg" },
+        { name: "David Wilson", role: "Technology Lead", image: "/team/david.jpg" }
+    ];
+
     return (
-        <section className="min-h-screen bg-white pt-20 pb-16 px-4">
-            <div className="max-w-6xl mx-auto">
-                <h2 className="text-4xl font-bold text-center mb-8">About SafeHands</h2>
+        <div className="min-h-screen bg-white">
+            {/* Hero Section */}
+            <section className="bg-gradient-to-r from-blue-50 to-white py-16 lg:py-24">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                    <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+                        About SafeHands Healthcare
+                    </h1>
+                    <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                        We're on a mission to make quality healthcare accessible to everyone, right at their doorstep.
+                    </p>
+                </div>
+            </section>
 
-                <div className="grid md:grid-cols-2 gap-10 items-center">
-                    {/* Left - Text */}
+            {/* Stats Section */}
+            <section className="py-16 lg:py-20">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                    {stats.map((stat, index) => (
+                        <div key={index}>
+                            <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 text-blue-700">
+                                {stat.icon}
+                            </div>
+                            <div className="text-3xl font-bold text-gray-900 mb-2">{stat.value}</div>
+                            <div className="text-gray-600">{stat.label}</div>
+                        </div>
+                    ))}
+                </div>
+            </section>
+
+            {/* Mission & Vision */}
+            <section className="py-16 lg:py-20 bg-gray-50">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-12">
                     <div>
-                        <p className="text-gray-700 mb-4 text-lg leading-relaxed">
-                            SafeHands is a trusted healthcare platform that connects individuals with
-                            verified service providers, offering home care, medical support, and
-                            personalized wellness services.
+                        <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Mission</h2>
+                        <p className="text-lg text-gray-600 mb-6">
+                            To revolutionize healthcare delivery by making quality medical services accessible, affordable, and convenient for everyone.
                         </p>
-                        <p className="text-gray-700 text-lg leading-relaxed">
-                            Our mission is to make quality healthcare accessible, comfortable, and
-                            tailored to every family's needs—right at their doorstep.
+                        <p className="text-lg text-gray-600">
+                            Through our innovative platform, we connect patients with verified healthcare professionals, ensuring that quality care is just a click away.
                         </p>
                     </div>
-
-                    {/* Right - Image */}
-                    <div className="w-full h-64 md:h-80 rounded-xl overflow-hidden shadow-md">
-                        <img
-                            src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?auto=format&fit=crop&w=800&q=80"
-                            alt="Healthcare at Home"
-                            className="w-full h-full object-cover"
-                        />
+                    <div>
+                        <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Vision</h2>
+                        <p className="text-lg text-gray-600 mb-6">
+                            To become the most trusted healthcare platform in India, known for our commitment to quality, safety, and patient satisfaction.
+                        </p>
+                        <p className="text-lg text-gray-600">
+                            By leveraging technology and maintaining the highest standards of care, we aim to transform the healthcare landscape and improve lives.
+                        </p>
                     </div>
                 </div>
+            </section>
 
-                {/* Go Home Button */}
-                <div className="text-center mt-12">
-                    <Link href="/">
-                        <button className="bg-[#1f3c88] text-white px-6 py-3 rounded-full hover:bg-[#173072] transition duration-200">
-                            Go to Home
+            {/* Values Section */}
+            <section className="py-16 lg:py-20">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="text-center mb-16">
+                        <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">Our Values</h2>
+                        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                            These core values guide everything we do at SafeHands Healthcare.
+                        </p>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        {values.map((value, index) => (
+                            <div key={index} className="text-center">
+                                <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 text-blue-700">
+                                    {value.icon}
+                                </div>
+                                <h3 className="text-lg font-bold text-gray-900 mb-2">{value.title}</h3>
+                                <p className="text-gray-600">{value.description}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* Team Section */}
+            <section className="py-16 lg:py-20 bg-gray-50">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="text-center mb-16">
+                        <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">Our Leadership Team</h2>
+                        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                            Meet the experts behind SafeHands Healthcare
+                        </p>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        {team.map((member, index) => (
+                            <div key={index} className="text-center">
+                                <div className="w-48 h-48 rounded-full overflow-hidden mx-auto mb-4">
+                                    <img
+                                        src={member.image}
+                                        alt={member.name}
+                                        className="w-full h-full object-cover"
+                                    />
+                                </div>
+                                <h3 className="text-lg font-bold text-gray-900 mb-1">{member.name}</h3>
+                                <p className="text-gray-600">{member.role}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* Join Us Section */}
+            <section className="py-16 lg:py-20">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                    <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">Join Our Mission</h2>
+                    <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
+                        Be part of our journey to transform healthcare delivery in India.
+                    </p>
+                    <a href="/careers">
+                        <button className="bg-blue-700 hover:bg-blue-800 text-white px-8 py-3 rounded-md transition">
+                            View Open Positions
                         </button>
-                    </Link>
+                    </a>
                 </div>
-            </div>
-        </section>
-    );
-};
+            </section>
 
-export default About;
+            <Footer />
+        </div>
+    );
+}
