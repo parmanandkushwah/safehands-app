@@ -7,9 +7,8 @@ exports.register = async (req, res) => {
   try {
     const { firstName, lastName, email, password } = req.body;
 
-    // Combine name properly
     const name = `${firstName} ${lastName}`.trim();
-    const role = 'user'; // Default role if not passed
+    const role = 'user'; // ✅ force default role
 
     if (!name || !email || !password) {
       return res.status(400).json({ message: 'All fields are required' });
@@ -20,15 +19,21 @@ exports.register = async (req, res) => {
 
     const hash = await bcrypt.hash(password, 10);
 
-    // ✅ Now use 'name' in User.create
     const user = await User.create({ name, email, password: hash, role });
 
-    res.status(201).json({ id: user.id, name: user.name, email: user.email, role: user.role });
+    res.status(201).json({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role
+    });
+
   } catch (err) {
     console.error('❌ Register error:', err);
     res.status(500).json({ message: 'Server error', error: err.message });
   }
 };
+
 
 exports.login = async (req, res) => {
   try {
