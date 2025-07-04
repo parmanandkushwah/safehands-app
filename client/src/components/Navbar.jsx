@@ -107,7 +107,7 @@ const Navbar = () => {
           </button>
 
           {/* Search Bar */}
-          <form
+          {/* <form
             className="relative"
             onSubmit={(e) => {
               e.preventDefault();
@@ -125,7 +125,7 @@ const Navbar = () => {
               onChange={(e) => setSearchQuery(e.target.value)}
             />
             <FaSearch className="absolute left-2 top-2.5 text-gray-500 text-sm" />
-          </form>
+          </form> */}
         </div>
 
         {/* Auth Buttons */}
