@@ -44,7 +44,7 @@ export default function App() {
                 <Route path="/careers" component={Careers} />
                 <Route path="/support" component={Support} />
                 <Route path="/elderly-care/:id" component={EldercareDetails} />
-                <Route path="/medical-service/:id" component={MedicalServiceDetails} />
+                <Route path="/medical-services/:id" component={MedicalServiceDetails} />
                 <Route path="/home-care/:id" component={HomeCareDetails} />
                 <Route path="/child-care/:id" component={ChildCareDetails} />
             </Switch>
