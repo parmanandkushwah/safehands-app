@@ -18,6 +18,10 @@ import ElderlyCare from "./pages/ElderlyCare.jsx";
 import Contact from "./pages/Contact.jsx";
 import Careers from "./pages/Careers.jsx";
 import Support from "./pages/Support.jsx";
+import EldercareDetails from "./pages/EldercareDetails.jsx";
+import MedicalServiceDetails from "./pages/MedicalServiceDetails.jsx";
+import HomeCareDetails from "./pages/HomeCareDetails.jsx";
+import ChildCareDetails from "./pages/ChildCareDetails.jsx";
 
 export default function App() {
     return (
@@ -39,6 +43,10 @@ export default function App() {
                 <Route path="/contact" component={Contact} />
                 <Route path="/careers" component={Careers} />
                 <Route path="/support" component={Support} />
+                <Route path="/elderly-care/:id" component={EldercareDetails} />
+                <Route path="/medical-service/:id" component={MedicalServiceDetails} />
+                <Route path="/home-care/:id" component={HomeCareDetails} />
+                <Route path="/child-care/:id" component={ChildCareDetails} />
             </Switch>
 
             {/* Toast notifications */}
